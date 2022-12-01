@@ -49,6 +49,10 @@ div.small-Square.active{
   background-color: white;
 }
 
+div.small-Square.bomb{
+  background-color: red;
+}
+
 footer{
   height: 50px;
 }
