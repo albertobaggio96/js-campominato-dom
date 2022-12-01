@@ -20,31 +20,39 @@ function getCasualBombPosition(howMany, minNum, maxNum){
 function getSquare(squareSize, tot, bomb){
   const mainElement= document.querySelector("main");
 
-  mainElement.innerHTML=""
+  mainElement.innerHTML="";
   
   const bigSquare= getNewDivElement();
   bigSquare.classList.add("big-Square", "m-auto", "d-flex", "flex-wrap", "p-0");
   
   mainElement.append(bigSquare);
-  
+
+  let sum = 0;
+
+  const score= getNewDivElement();
+  mainElement.append(score);
+  score.append(sum);
+
   for(let i = 1; i <= tot; i++){
     let smallSquare= getNewDivElement();
     smallSquare.classList.add("small-Square", "d-flex", "justify-content-center", "align-items-center", squareSize);
     bigSquare.append(smallSquare);
     smallSquare.append(i);
 
-    if (bomb.includes(i)){
-      smallSquare.addEventListener("click", function(){
-        smallSquare.classList.toggle("bomb");
-      })
-    }else{
-      smallSquare.addEventListener("click", function(){
-        smallSquare.classList.toggle("active");
-      })
-    }
-
+    smallSquare.addEventListener("click", function(){
+      if (bomb.includes(i)){
+        smallSquare.classList.add("bomb");
+      }else{
+        smallSquare.classList.add("active");
+        sum++;
+        score.innerHTML="";
+        score.append(sum);
+      }
+    })
+    
+    console.log(sum)
   }
-  return mainElement
+  return mainElement;
 }
 
 const buttonSmall= document.getElementById("small");
@@ -54,13 +62,13 @@ const buttonBig= document.getElementById("big");
 buttonSmall.addEventListener("click", function(){
   let randomBomb= getCasualBombPosition(16, 1, 49);
   console.log(randomBomb);
-  getSquare("forty-nine", 49, randomBomb)
+  getSquare("forty-nine", 49, randomBomb);
 })
 
 buttonMedium.addEventListener("click", function(){
   let randomBomb= getCasualBombPosition(16, 1, 81);
   console.log(randomBomb);
-  getSquare("eighty-one", 81, randomBomb)
+  getSquare("eighty-one", 81, randomBomb);
 })
 
 buttonBig.addEventListener("click", function(){
