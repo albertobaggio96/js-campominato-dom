@@ -33,25 +33,30 @@ function getSquare(squareSize, tot, bomb){
   mainElement.append(score);
   score.append(sum);
 
+  const squareArray= []
+
   for(let i = 1; i <= tot; i++){
     let smallSquare= getNewDivElement();
+    squareArray.push(smallSquare)
     smallSquare.classList.add("small-Square", "d-flex", "justify-content-center", "align-items-center", squareSize);
     bigSquare.append(smallSquare);
     smallSquare.append(i);
 
     smallSquare.addEventListener("click", function(){
       if (bomb.includes(i)){
-        smallSquare.classList.add("bomb");
-      }else{
+        console.log(bomb)
+        bomb.forEach(function (bom){
+          squareArray[bom-1].classList.add("bomb")
+        })
+      } else{
         smallSquare.classList.add("active");
         sum++;
         score.innerHTML="";
         score.append(sum);
       }
     })
-    
-    console.log(sum)
   }
+  console.log(squareArray)
   return mainElement;
 }
 
