@@ -1,3 +1,11 @@
+const mainElement= document.querySelector("main");
+const buttonSmall= document.getElementById("small");
+buttonSmall.classList.add("btn", "btn-secondary");
+const buttonMedium= document.getElementById("medium");
+buttonMedium.classList.add("btn", "btn-secondary", "my-3");
+const buttonBig= document.getElementById("big");
+buttonBig.classList.add("btn", "btn-secondary");
+
 function getNewDivElement(){
   const divElement= document.createElement("div");
   return divElement;
@@ -18,7 +26,6 @@ function getCasualBombPosition(howMany, minNum, maxNum){
 }
 
 function getSquare(squareSize, tot, bomb){
-  const mainElement= document.querySelector("main");
 
   mainElement.innerHTML="";
   
@@ -35,6 +42,8 @@ function getSquare(squareSize, tot, bomb){
 
   const squareArray= []
 
+  let areWinner;
+
   for(let i = 1; i <= tot; i++){
     let smallSquare= getNewDivElement();
     squareArray.push(smallSquare)
@@ -43,26 +52,44 @@ function getSquare(squareSize, tot, bomb){
     smallSquare.append(i);
 
     smallSquare.addEventListener("click", function(){
+
       if (bomb.includes(i)){
-        console.log(bomb)
+        console.log(bomb);
         bomb.forEach(function (bom){
-          squareArray[bom-1].classList.add("bomb")
+          squareArray[bom-1].classList.add("bomb");
         })
+        squareArray.forEach(function (square){
+          square.classList.add("active");
+        })
+        areWinner = "HAI PERSO, RIPROVA";
+        getEndGrame(areWinner);
+
       } else{
         smallSquare.classList.add("active");
         sum++;
         score.innerHTML="";
         score.append(sum);
+        if (sum === tot - bomb.length){
+          areWinner= "HAI VINTO, GIOCA ANCORA"
+          getEndGrame(areWinner);
+        }
       }
-    })
+      
+    },{once:true})
   }
-  console.log(squareArray)
+  console.log(squareArray);
   return mainElement;
 }
 
-const buttonSmall= document.getElementById("small");
-const buttonMedium= document.getElementById("medium");
-const buttonBig= document.getElementById("big");
+function getEndGrame(win){
+  const div=getNewDivElement();
+  div.classList.add("end-game");
+  div.innerHTML= win;
+  console.log(div);
+  mainElement.append(div);
+  div.append(buttonSmall, buttonMedium, buttonBig)
+}
+
 
 buttonSmall.addEventListener("click", function(){
   let randomBomb= getCasualBombPosition(16, 1, 49);
