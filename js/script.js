@@ -6,6 +6,26 @@ buttonMedium.classList.add("btn", "btn-secondary", "my-3");
 const buttonBig= document.getElementById("big");
 buttonBig.classList.add("btn", "btn-secondary");
 
+buttonSmall.addEventListener("click", function(){
+  let randomBomb= getCasualBombPosition(16, 1, 49);
+  console.log(randomBomb);
+  getSquare("forty-nine", 49, randomBomb);
+})
+
+buttonMedium.addEventListener("click", function(){
+  let randomBomb= getCasualBombPosition(16, 1, 81);
+  console.log(randomBomb);
+  getSquare("eighty-one", 81, randomBomb);
+})
+
+buttonBig.addEventListener("click", function(){
+  let randomBomb= getCasualBombPosition(16, 1, 100);
+  console.log(randomBomb);
+  getSquare("hundred", 100, randomBomb);
+})
+
+// ************************ FUNZIONI *********************************
+
 function getNewDivElement(){
   const divElement= document.createElement("div");
   return divElement;
@@ -36,13 +56,14 @@ function getSquare(squareSize, tot, bomb){
 
   let sum = 0;
 
+  let isEndGame= false;
+
   const score= getNewDivElement();
   mainElement.append(score);
+  score.classList.add("w-100", "text-center")
   score.append(sum);
 
   const squareArray= []
-
-  let areWinner;
 
   for(let i = 1; i <= tot; i++){
     let smallSquare= getNewDivElement();
@@ -52,23 +73,24 @@ function getSquare(squareSize, tot, bomb){
     smallSquare.append(i);
 
     smallSquare.addEventListener("click", function(){
-
-      if (bomb.includes(i)){
-        console.log(bomb);
-        bomb.forEach(function (bom){
-          squareArray[bom-1].classList.add("bomb");
-        })
-        areWinner = "HAI PERSO, RIPROVA";
-        getEndGrame(areWinner, sum);
-
-      } else{
-        smallSquare.classList.add("active");
-        sum++;
-        score.innerHTML="";
-        score.append(sum);
-        if (sum === tot - bomb.length){
-          areWinner= "HAI VINTO, GIOCA ANCORA"
-          getEndGrame(areWinner, sum);
+  
+      if (!isEndGame){
+        if (bomb.includes(i)){
+          console.log(bomb);
+          bomb.forEach(function (bom){
+            squareArray[bom-1].classList.add("bomb");
+          })
+          isEndGame= true;
+          score.innerHTML=`HAI PERSO! IL TUO PUNTEGGIO: ${sum}`
+        } else{
+          smallSquare.classList.add("active");
+          sum++;
+          score.innerHTML="";
+          score.append(sum);
+          if (sum === tot - bomb.length){
+          isEndGame= true;
+          score.innerHTML="HAI VINTO!!!!!!"
+          }
         }
       }
     },{once:true})
@@ -76,30 +98,3 @@ function getSquare(squareSize, tot, bomb){
 
   return mainElement;
 }
-
-function getEndGrame(win, score){
-  const div=getNewDivElement();
-  div.classList.add("end-game", "text-center");
-  div.innerHTML= `${win}! <br> PUNTEGGIO: ${score}`;
-  console.log(div);
-  mainElement.append(div);
-  div.append(buttonSmall, buttonMedium, buttonBig)
-}
-
-buttonSmall.addEventListener("click", function(){
-  let randomBomb= getCasualBombPosition(16, 1, 49);
-  console.log(randomBomb);
-  getSquare("forty-nine", 49, randomBomb);
-})
-
-buttonMedium.addEventListener("click", function(){
-  let randomBomb= getCasualBombPosition(16, 1, 81);
-  console.log(randomBomb);
-  getSquare("eighty-one", 81, randomBomb);
-})
-
-buttonBig.addEventListener("click", function(){
-  let randomBomb= getCasualBombPosition(16, 1, 100);
-  console.log(randomBomb);
-  getSquare("hundred", 100, randomBomb);
-})

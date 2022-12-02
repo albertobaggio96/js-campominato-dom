@@ -56,21 +56,3 @@ div.small-Square.bomb{
 footer{
   height: 50px;
 }
-
-.end-game{
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 50%;
-  width: 100vw;
-  height: 100vh;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.486);
-  color: white;
-  font-weight: bolder;
-  font-size: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
